@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f1f1f1;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .chatbox {
+            box-sizing: border-box;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+            height: 85%;
+            overflow-y: scroll;
+            padding: 10px;
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .chatbox p {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .chatbox .user {
+            background-color: #d9f1fe;
+            text-align: right;
+        }
+
+        .chatbox .bot {
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+
+        .input-container {
+            position: fixed;
+            bottom: 40px;
+            width: 50%;
+            text-align: center;
+            display: flex;
+            transform: translateX(50%);
+        }
+
+        .input-container input[type=text] {
+            padding: 10px;
+            flex-grow: 1;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-container input[type=button] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 10px;
+        }
+
+        .input-container input[type=button]:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+<div class="chatbox" id="chatbox">
+    <p class="bot">Hello! How can I help you today?</p>
+</div>
+<div class="input-container">
+    <input type="text" id="user-input">
+    <input type="button" value="chat" onclick="sendMessage()">
+    <input type="button" value="models" onclick="models()">
+    <input type="button" value="images" onclick="sendImages()">
+</div>
+<script>
+
+    function chat(prompt) {
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify({
+            "prompt": prompt,
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            body: raw,
+        };
+        return fetch("http://localhost:8080/chatWithGpt", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log('result', result)
+                return result;
+            })
+            .catch(error => {
+                alert("error:" + error)
+                console.log('error', error)
+            });
+
+    }
+
+    function sendMessage() {
+        var userInput = document.getElementById("user-input").value;
+        if (userInput) {
+            var chatbox = document.querySelector(".chatbox");
+            var userMessage = document.createElement("p");
+            userMessage.classList.add("user");
+            userMessage.innerHTML = userInput;
+            chatbox.appendChild(userMessage);
+            document.getElementById("user-input").value = "";
+
+            chat(userInput).then(res => {
+                var botMessage = document.createElement("p");
+                botMessage.classList.add("bot");
+                botMessage.innerHTML = res;
+                chatbox.appendChild(botMessage);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            });
+
+        } else {
+            alert("不能发送空消息")
+        }
+    }
+
+    function models() {
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let requestOptions = {
+            method: 'GET',
+        };
+        return fetch("http://localhost:8080/getModels", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log('result', result)
+                return result;
+            })
+            .catch(error => {
+                alert("error:" + error)
+                console.log('error', error)
+            });
+
+    }
+
+    function images(prompt) {
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify({
+            "prompt": prompt,
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            body: raw,
+        };
+        return fetch("http://localhost:8080/createImage", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log('result', result)
+                return result;
+            })
+            .catch(error => {
+                alert("error:" + error)
+                console.log('error', error)
+            });
+
+    }
+
+    function sendImages() {
+        var userInput = document.getElementById("user-input").value;
+        if (userInput) {
+            var chatbox = document.querySelector(".chatbox");
+            var userMessage = document.createElement("p");
+            userMessage.classList.add("user");
+            userMessage.innerHTML = userInput;
+            chatbox.appendChild(userMessage);
+            document.getElementById("user-input").value = "";
+
+            images(userInput).then(res => {
+                var botMessage = document.createElement("p");
+                botMessage.classList.add("bot");
+                botMessage.innerHTML = res;
+                chatbox.appendChild(botMessage);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            });
+
+        } else {
+            alert("不能发送空消息")
+        }
+    }
+
+</script>
+</body>
+</html>
