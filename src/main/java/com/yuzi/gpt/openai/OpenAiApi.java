@@ -32,7 +32,7 @@ public class OpenAiApi {
         String json = JSONUtil.toJsonStr(request);
         String result = HttpRequest.post(url)
                 .header("Authorization", "Bearer " + openAiApiKey)
-                .header("Content-Type", "application/json")
+//                .header("Content-Type", "application/json")
                 .body(json)
                 .execute()
                 .body();
