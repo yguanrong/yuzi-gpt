@@ -2,6 +2,7 @@ package com.yuzi.gpt.controller;
 
 import com.yuzi.gpt.common.BaseResponse;
 import com.yuzi.gpt.config.OpenAiConfig;
+import com.yuzi.gpt.dto.ParamDto;
 import com.yuzi.gpt.openai.OpenAiApi;
 import com.yuzi.gpt.openai.model.*;
 import io.swagger.annotations.ApiOperation;
@@ -32,11 +33,11 @@ public class MainController {
 
     @PostMapping("/chatWithGpt")
     @ApiOperation(value = "发起chatGpt请求",httpMethod = "POST")
-    public BaseResponse<String> chatWithGpt(String prompt){
+    public BaseResponse<String> chatWithGpt(@RequestBody ParamDto prompt){
         CreateCompletionRequest request = new CreateCompletionRequest();
         CreateCompletionRequest.Messages messages = new CreateCompletionRequest.Messages();
         messages.setRole("user");
-        messages.setContent(prompt);
+        messages.setContent(prompt.getPrompt());
         request.setMessages(Collections.singletonList(messages));
         request.setModel(openAiConfig.getModel());
 
@@ -67,9 +68,9 @@ public class MainController {
 
     @PostMapping("/createImage")
     @ApiOperation(value = "生成图片",httpMethod = "POST")
-    public BaseResponse<ImageResponse> createImage(String prompt){
+    public BaseResponse<ImageResponse> createImage(@RequestBody ParamDto prompt){
         ImageReq request = new ImageReq();
-        request.setPrompt(prompt);
+        request.setPrompt(prompt.getPrompt());
         request.setN(4);
         request.setSize("1024x1024");
         ImageResponse response = openAiApi.generationImages(request, openAiConfig.getApiKey());

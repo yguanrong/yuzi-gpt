@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 /**
  * OpenAi 接口
  * <a href="https://platform.openai.com/docs/api-reference">参考文档</a>
- *
  **/
 @Service
 @Slf4j
@@ -37,8 +36,7 @@ public class OpenAiApi {
                 .body(json)
                 .execute()
                 .body();
-        log.info("入参：{}",json);
-        log.info("/v1/chat/completions,返回：{}",result);
+        log.info("/v1/chat/completions,入参：{}。\n返回：{}", json, result);
         return JSONUtil.toBean(result, CreateCompletionResponse.class);
     }
 
@@ -78,7 +76,7 @@ public class OpenAiApi {
                 .body(json)
                 .execute()
                 .body();
-        log.info("/v1/images/generations,返回：{}",result);
+        log.info("/v1/images/generations,入参：{}。\n返回：{}", json, result);
         return JSONUtil.toBean(result, ImageResponse.class);
     }
 
