@@ -1,5 +1,7 @@
 package com.yuzi.gpt.openai;
 
+import cn.hutool.http.ContentType;
+import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONUtil;
 import com.yuzi.gpt.openai.model.*;
@@ -31,6 +33,7 @@ public class OpenAiApi {
         String url = "https://api.openai.com/v1/chat/completions";
         String json = JSONUtil.toJsonStr(request);
         String result = HttpRequest.post(url)
+                .header(Header.CONTENT_TYPE, ContentType.JSON.getValue())
                 .header("Authorization", "Bearer " + openAiApiKey)
 //                .header("Content-Type", "application/json")
                 .body(json)
