@@ -37,6 +37,7 @@ public class OpenAiApi {
                 .body(json)
                 .execute()
                 .body();
+        log.info("入参：{}",json);
         log.info("/v1/chat/completions,返回：{}",result);
         return JSONUtil.toBean(result, CreateCompletionResponse.class);
     }
