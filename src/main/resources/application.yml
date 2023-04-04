@@ -9,7 +9,7 @@ spring:
     prefix: classpath:/templates/
 server:
   address: 0.0.0.0
-  port: 8080
+  port: ${PORT:8080}
 # openAI 配置
 # https://platform.openai.com/docs/api-reference
 openai:
