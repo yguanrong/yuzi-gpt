@@ -37,7 +37,7 @@ public class OpenAiApi {
                 .body(json)
                 .execute()
                 .body();
-        log.info("/v1/chat/completions,返回：{}",request);
+        log.info("/v1/chat/completions,返回：{}",result);
         return JSONUtil.toBean(result, CreateCompletionResponse.class);
     }
 
@@ -77,6 +77,7 @@ public class OpenAiApi {
                 .body(json)
                 .execute()
                 .body();
+        log.info("/v1/images/generations,返回：{}",result);
         return JSONUtil.toBean(result, ImageResponse.class);
     }
 
