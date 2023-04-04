@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,16 +34,18 @@ public class MainController {
     @ApiOperation(value = "发起chatGpt请求",httpMethod = "POST")
     public BaseResponse<String> chatWithGpt(String prompt){
         CreateCompletionRequest request = new CreateCompletionRequest();
-        request.setPrompt(prompt);
+        CreateCompletionRequest.Messages messages = new CreateCompletionRequest.Messages();
+        messages.setRole("user");
+        messages.setContent(prompt);
+        request.setMessages(Collections.singletonList(messages));
         request.setModel(openAiConfig.getModel());
-        request.setTemperature(0);
-        request.setMax_tokens(1024);
+
         CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
-        List<CreateCompletionResponse.ChoicesItem> choicesItemList = response.getChoices();
-        String answer = choicesItemList.stream()
-                .map(CreateCompletionResponse.ChoicesItem::getText)
+        List<CreateCompletionResponse.Choices> choicesList = response.getChoices();
+        String answer = choicesList.stream()
+                .map(e-> e.getMessage().getContent())
                 .collect(Collectors.joining());
-        log.info("OpenAiAnswerer 回答成功 \n 答案：{}", answer);
+        log.info("OpenAiAnswerer 回答成功,答案：{}", answer);
         return new BaseResponse<>(200,answer);
     }
 
