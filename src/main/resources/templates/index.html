@@ -65,7 +65,7 @@
         .input-container {
             position: fixed;
             bottom: 40px;
-            width: 60%;
+            width: 50%;
             text-align: center;
             display: flex;
             transform: translateX(50%);
@@ -85,8 +85,8 @@
             border-radius: 5px;
             color: white;
             cursor: pointer;
-            margin-left: 10px;
-            padding: 10px;
+            margin-left: 1vw;
+            padding: 1vw;
         }
 
         .input-container input[type=button]:hover {
@@ -101,7 +101,6 @@
 <div class="input-container">
     <input type="text" id="user-input">
     <input type="button" value="chat" onclick="sendMessage()">
-    <input type="button" value="models" onclick="models()">
     <input type="button" value="images" onclick="sendImages()">
 </div>
 <script>
@@ -133,19 +132,21 @@
     }
 
     function sendMessage() {
-        var userInput = document.getElementById("user-input").value;
+        const userInput = document.getElementById("user-input").value;
         if (userInput) {
-            var chatbox = document.querySelector(".chatbox");
-            var userMessage = document.createElement("p");
+            const chatbox = document.querySelector(".chatbox");
+            const userMessage = document.createElement("p");
             userMessage.classList.add("user");
             userMessage.innerHTML = userInput;
             chatbox.appendChild(userMessage);
             document.getElementById("user-input").value = "";
 
             chat(userInput).then(res => {
-                var botMessage = document.createElement("p");
+                const resJson = JSON.parse(res);
+                const str = resJson?.data;
+                const botMessage = document.createElement("p");
                 botMessage.classList.add("bot");
-                botMessage.innerHTML = res;
+                botMessage.innerHTML = str;
                 chatbox.appendChild(botMessage);
                 chatbox.scrollTop = chatbox.scrollHeight;
             });
@@ -202,10 +203,10 @@
     }
 
     function sendImages() {
-        var userInput = document.getElementById("user-input").value;
+        const userInput = document.getElementById("user-input").value;
         if (userInput) {
-            var chatbox = document.querySelector(".chatbox");
-            var userMessage = document.createElement("p");
+            const chatbox = document.querySelector(".chatbox");
+            const userMessage = document.createElement("p");
             userMessage.classList.add("user");
             userMessage.innerHTML = userInput;
             chatbox.appendChild(userMessage);
