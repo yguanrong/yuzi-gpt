@@ -100,7 +100,7 @@
         let requestOptions = {
             method: 'POST',
             body: raw,
-            header: myHeaders
+            headers: myHeaders
         };
         return fetch("/chatWithGpt", requestOptions)
             .then(response => response.text())
@@ -169,7 +169,7 @@
         let requestOptions = {
             method: 'POST',
             body: raw,
-            header: myHeaders
+            headers: myHeaders
         };
         return fetch("/createImage", requestOptions)
             .then(response => response.text())

@@ -33,9 +33,8 @@ public class OpenAiApi {
         String url = "https://api.openai.com/v1/chat/completions";
         String json = JSONUtil.toJsonStr(request);
         String result = HttpRequest.post(url)
-                .header(Header.CONTENT_TYPE, ContentType.JSON.getValue())
+                .contentType(ContentType.JSON.getValue())
                 .header("Authorization", "Bearer " + openAiApiKey)
-//                .header("Content-Type", "application/json")
                 .body(json)
                 .execute()
                 .body();
@@ -76,6 +75,7 @@ public class OpenAiApi {
         String json = JSONUtil.toJsonStr(request);
         String result = HttpRequest.post(url)
                 .header("Authorization", "Bearer " + openAiApiKey)
+                .contentType(ContentType.JSON.getValue())
                 .body(json)
                 .execute()
                 .body();
