@@ -14,4 +14,4 @@ ENV OPENAI_MODEL=text-davinci-003
 ENV OPENAI_API_KEY=你的API_KEY
 
 # Run the web service on container startup.
-ENTRYPOINT ["java","-jar","/app/target/yuzi-gpt-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+ENTRYPOINT ["java","-jar","/target/yuzi-gpt-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
