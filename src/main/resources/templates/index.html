@@ -169,6 +169,7 @@
         let requestOptions = {
             method: 'POST',
             body: raw,
+            header: myHeaders
         };
         return fetch("/createImage", requestOptions)
             .then(response => response.text())
