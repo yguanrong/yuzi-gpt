@@ -101,7 +101,7 @@
             method: 'POST',
             body: raw,
         };
-        return fetch("http://localhost:8080/chatWithGpt", requestOptions)
+        return fetch("/chatWithGpt", requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log('result', result)
@@ -144,7 +144,7 @@
         let requestOptions = {
             method: 'GET',
         };
-        return fetch("http://localhost:8080/getModels", requestOptions)
+        return fetch("/getModels", requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log('result', result)
@@ -169,7 +169,7 @@
             method: 'POST',
             body: raw,
         };
-        return fetch("http://localhost:8080/createImage", requestOptions)
+        return fetch("/createImage", requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log('result', result)
