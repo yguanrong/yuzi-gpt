@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.yuzi.gpt.openai.model.*;
 import com.yuzi.gpt.common.ErrorCode;
 import com.yuzi.gpt.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
  *
  **/
 @Service
+@Slf4j
 public class OpenAiApi {
 
     /**
@@ -35,6 +37,7 @@ public class OpenAiApi {
                 .body(json)
                 .execute()
                 .body();
+        log.info("/v1/chat/completions,返回：{}",request);
         return JSONUtil.toBean(result, CreateCompletionResponse.class);
     }
 

@@ -43,7 +43,12 @@ public class MainController {
         CreateCompletionResponse response = openAiApi.createCompletion(request, openAiConfig.getApiKey());
         List<CreateCompletionResponse.Choices> choicesList = response.getChoices();
         String answer = choicesList.stream()
-                .map(e-> e.getMessage().getContent())
+                .map(e-> {
+                    if (e.getMessage() !=null){
+                        return e.getMessage().getContent();
+                    }
+                    return "";
+                })
                 .collect(Collectors.joining());
         log.info("OpenAiAnswerer 回答成功,答案：{}", answer);
         return new BaseResponse<>(200,answer);
